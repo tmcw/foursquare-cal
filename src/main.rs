@@ -23,6 +23,7 @@ struct Checkin {
     timeZoneOffset: i64,
     venue: Venue,
     createdAt: String,
+    id: String,
 }
 
 fn main() {
@@ -55,6 +56,7 @@ fn main() {
                 Event::new()
                     .summary(&format!("Checked in at {:?}", checkin.venue.name))
                     .location(&checkin.venue.name)
+                    .add_property("UID", &checkin.id)
                     .add_property("COLOR", "#D98E15")
                     .add_property("URL", &checkin.venue.url)
                     .description("Foursquare checkin")
