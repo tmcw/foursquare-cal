@@ -44,13 +44,14 @@ fn main() {
     my_calendar.name("Foursquare");
 
     for filename in files {
-        let file = File::open(filename).unwrap();
-        let json: Foursquare = serde_json::from_reader(file).unwrap();
+        let file = File::open(filename).expect("Couldn’t open file");
+        let json: Foursquare = serde_json::from_reader(file)
+            .expect("Could not parse file. Is this JSON from an export?");
 
         for checkin in json.items {
             let time = NaiveDateTime::parse_from_str(&checkin.createdAt, "%Y-%m-%d %H:%M:%S.%f")
                 .map(|n| n + Duration::minutes(checkin.timeZoneOffset))
-                .unwrap();
+                .expect("Failed to parse a checkin time");
 
             my_calendar.push(
                 Event::new()
@@ -70,7 +71,7 @@ fn main() {
 
     println!("Writing {:?} events to checkins.ics", my_calendar.len());
 
-    let mut cal = File::create("checkins.ics").unwrap();
+    let mut cal = File::create("checkins.ics").expect("Failed to create checkins.ics");
     cal.write_all(my_calendar.done().to_string().as_bytes())
-        .unwrap();
+        .expect("Failed to write the calendar to disk");
 }
