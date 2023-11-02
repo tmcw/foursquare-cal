@@ -2,7 +2,7 @@ use std::fs::File;
 
 use chrono::{Duration, NaiveDateTime};
 use clap::{arg, command};
-use icalendar::{Calendar, Class, Component, Event, EventLike, Property};
+use icalendar::{Calendar, Class, Component, Event, EventLike};
 use serde::Deserialize;
 use std::io::prelude::*;
 
@@ -15,7 +15,7 @@ struct Foursquare {
 struct Venue {
     name: String,
     url: String,
-    id: String,
+    // id: String,
 }
 
 #[derive(Debug, Deserialize)]
